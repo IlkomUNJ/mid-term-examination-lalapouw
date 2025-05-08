@@ -145,6 +145,55 @@ impl BstNode {
         None
     }
 
+    // add node under the target node
+    fn add_node(&self, target_node: &BstNodeLink, value: i32)→ bool{
+        if let Some(node_rc) = target_node {
+            let mut node = node_rc.borrow_mut();
+            if value < node.value {
+                if node.left.is_none(){
+                    node.left = BstNode::new(value);
+
+                }
+            }
+        }
+    }
+
+    fn tree_predecessor(node &BstNodeLink) → Option<BstNodeLink>{
+        if let Some(rc_node) = target_node {
+            let mut node = rc_node.borrow().left.clone;
+            while let Some(inner) = current.clone(){
+                if inner.borrow().right.is_none(){
+                    break;
+                }
+                current = inner.borrow().right.clone();
+            }
+            return current;
+        }
+        None
+    }
+
+    //median
+    fn median(&self) → BstNodeLink{
+        let mut values = vec![];
+        Self::in_order_collect(&Some(Rc::new(RefCell::new(self.clone()))), &mut values);
+        let mid = values.len() / 2;
+        BstNode::new(values[mid]);
+    }
+
+    fn in_order_collect(node: BstNodeLink, values: &mut Vec <i32>){
+        if let Some(rc_node) = node {
+            let node_ref = rc_node.borrow();
+            Self::in_order_collect(&node_ref.left, values);
+            values.push(node_ref_value);
+            Self::in_order_collect(&node_ref.right, values);
+        }
+    }
+
+    fn tree_rebalance(node: &BstNodeLink)  → BstNodeLink{
+
+    }
+
+
     fn get_strong_parent(node: &BstNodeLink) -> BstNodeLink{
         return BstNode::upgrade_weak_to_strong(node.borrow().parent.clone()).unwrap()
     }
